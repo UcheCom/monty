@@ -28,3 +28,20 @@ void free_all(int f_all)
 		}
 	}
 }
+
+/**
+ * e_free - frees arrays of strings
+ * @args: strings to be freed
+ */
+void e_free(char **args)
+{
+	int i;
+
+	if (!args)
+		return;
+
+	for (i = 0; args[i]; i++)
+		free(args[i]);
+
+	free(args);
+}

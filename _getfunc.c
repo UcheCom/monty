@@ -11,7 +11,7 @@ void (*_getfunc(char **tokenised))(stack_t **, unsigned int)
 	instruction_t func_arr[] = {
 		{"push", push},
 		{"pall", pall},
-		{"pint", pint},
+		/*{"pint", pint},*/
 		{NULL, NULL}
 	};
 

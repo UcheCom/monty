@@ -12,7 +12,7 @@ void push(stack_t **stack, unsigned int line_number)
 
 	if (uvar.toks[1] == NULL)
 	{
-		dprintf(STDERR_FILENO, PUSH_FAIL, line_number);
+		fprintf(stderr, PUSH_FAIL, line_number);
 		free_all(1);
 		exit(EXIT_FAILURE);
 	}
@@ -21,7 +21,7 @@ void push(stack_t **stack, unsigned int line_number)
 	{
 		if (isalpha(uvar.toks[1][x]) != 0)
 		{
-			dprintf(STDERR_FILENO, PUSH_FAIL, line_number);
+			fprintf(stderr, PUSH_FAIL, line_number);
 			free_all(1);
 			exit(EXIT_FAILURE);
 		}
@@ -34,7 +34,7 @@ void push(stack_t **stack, unsigned int line_number)
 		nw = add_dnodeint_end(stack, num);
 	if (!nw)
 	{
-		dprintf(STDERR_FILENO, MALLOC_FAIL);
+		fprintf(stderr, MALLOC_FAIL);
 		free_all(1);
 		exit(EXIT_FAILURE);
 	}
