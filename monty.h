@@ -6,6 +6,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <unistd.h>
+#include <fcntl.h>
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -16,11 +17,12 @@
  * Description: doubly linked list node structure
  * for stack, queues, LIFO, FIFO
  */
+
 typedef struct stack_s
 {
-        int n;
-        struct stack_s *prev;
-        struct stack_s *next;
+	int n;
+	struct stack_s *prev;
+	struct stack_s *next;
 } stack_t;
 
 typedef stack_t dlistint_t;
@@ -47,8 +49,8 @@ void free_dlistint(dlistint_t *head);
  */
 typedef struct instruction_s
 {
-        char *opcode;
-        void (*f)(stack_t **stack, unsigned int line_number);
+	char *opcode;
+	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
 /**
@@ -93,7 +95,7 @@ extern dat_t uvar;
 #define UNKNOWN "L%u: unknown instruction %s\n"
 #define MALLOC_FAIL "Error: malloc failed\n"
 #define PUSH_FAIL "L%u: usage: push integer\n"
-/*#define PINT_FAIL "L%u: can't pint, stack empty\n"
+#define PINT_FAIL "L%u: can't pint, stack empty\n"
 #define POP_FAIL "L%u: can't pop an empty stack\n"
 #define SWAP_FAIL "L%u: can't swap, stack too short\n"
 #define ADD_FAIL "L%u: can't add, stack too short\n"
@@ -103,14 +105,26 @@ extern dat_t uvar;
 #define MUL_FAIL "L%u: can't mul, stack too short\n"
 #define MOD_FAIL "L%u: can't mod, stack too short\n"
 #define PCHAR_FAIL "L%u: can't pchar, stack empty\n"
-#define PCHAR_RANGE "L%u: can't pchar, value out of range\n"*/
+#define PCHAR_RANGE "L%u: can't pchar, value out of range\n"
 
-/* main.c */
-*void monty(ags_t *args);
+/******** main.c ***********/
+void monty(ags_t *args);
 
 /* get_func.c */
 void (*_getfunc(char **tokenised))(stack_t **, unsigned int);
 void push(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);
+
+/* mfree.c */
+void free_all(int f_all);
+void e_free(char **args);
+
+/* strings.c */
+int _wordcount(char *s);
+char **strtow(char *s);
+
+/* _getline function */
+ssize_t _getline(char **line, size_t *n, FILE *stream);
+
 
 # endif /* MONTY_H */
