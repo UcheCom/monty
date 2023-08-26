@@ -23,6 +23,20 @@ typedef struct stack_s
         struct stack_s *next;
 } stack_t;
 
+typedef stack_t dlistint_t;
+
+/* _listfuncs.c */
+size_t dlistint_len(const dlistint_t *h);
+dlistint_t *add_dnodeint(dlistint_t **head, const int n);
+size_t print_dlistint(const dlistint_t *h);
+int delete_dnodeint_at_index(dlistint_t **head, unsigned int index);
+dlistint_t *get_dnodeint_at_index(dlistint_t *head, unsigned int index);
+
+/* _listfuncs1.c */
+dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n);
+dlistint_t *add_dnodeint_end(dlistint_t **head, const int n);
+void free_dlistint(dlistint_t *head);
+
 /**
  * struct instruction_s - opcode and its function
  * @opcode: the opcode
@@ -70,8 +84,6 @@ typedef struct dat_s
 	int qs_flag;
 } dat_t;
 
-typedef stack_t dlistint_t;
-
 extern dat_t uvar;
 
 #define UVAR_INIT {NULL, NULL, NULL, NULL, 0}
@@ -94,10 +106,10 @@ extern dat_t uvar;
 #define PCHAR_RANGE "L%u: can't pchar, value out of range\n"*/
 
 /* main.c */
-/*void monty(args_t *args);*/
+*void monty(ags_t *args);
 
 /* get_func.c */
-void (*get_func(char **tokenised))(stack_t **, unsigned int);
+void (*_getfunc(char **tokenised))(stack_t **, unsigned int);
 void push(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);
 
