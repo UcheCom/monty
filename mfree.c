@@ -1,5 +1,4 @@
 #include "monty.h"
-#include "lists.h"
 
 /**
  * free_all - this is the memory handling function

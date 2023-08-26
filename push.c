@@ -1,5 +1,4 @@
 #include "monty.h"
-#include "dlist.h"
 
 /**
  * push - handles the push instruction

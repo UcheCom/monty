@@ -1,5 +1,4 @@
 #include "monty.h"
-#include "lists.h"
 
 /**
  * pall - this handles the pall instruction

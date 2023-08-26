@@ -1,5 +1,4 @@
 #include "monty.h"
-#include "lists.h"
 
 /**
  * _getfunc - this selects the right function
@@ -16,7 +15,7 @@ void (*_getfunc(char **tokenised))(stack_t **, unsigned int)
 		{NULL, NULL}
 	};
 
-	int o_codes = 17, x;
+	int o_codes = 3, x;
 
 	for (x = 0; x < o_codes; x++)
 	{
