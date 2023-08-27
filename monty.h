@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
@@ -25,20 +26,6 @@ typedef struct stack_s
 	struct stack_s *next;
 } stack_t;
 
-typedef stack_t dlistint_t;
-
-/* _listfuncs.c */
-size_t dlistint_len(const dlistint_t *h);
-dlistint_t *add_dnodeint(dlistint_t **head, const int n);
-size_t print_dlistint(const dlistint_t *h);
-int delete_dnodeint_at_index(dlistint_t **head, unsigned int index);
-dlistint_t *get_dnodeint_at_index(dlistint_t *head, unsigned int index);
-
-/* _listfuncs1.c */
-dlistint_t *insert_dnodeint_at_index(dlistint_t **h, unsigned int idx, int n);
-dlistint_t *add_dnodeint_end(dlistint_t **head, const int n);
-void free_dlistint(dlistint_t *head);
-
 /**
  * struct instruction_s - opcode and its function
  * @opcode: the opcode
@@ -53,43 +40,33 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-/**
- * struct ags_s - structure of arguments from main
- * @argv: name of the file from the command line
- * @argc: number of arguments from main
- * @line_number: number of the current line in the file
- *
- * Description: arguments passed to main from the command line
- * used in various functions, arranged in a struct for clarity purpose.
- */
-typedef struct ags_s
-{
-	char *argv;
-	int argc;
-	unsigned int line_number;
-} ags_t;
+/* _listfuncs.c */
+stack_t *add_dnodeint(stack_t **head, const int n);
+stack_t *add_dnodeint_end(stack_t **head, const int n);
+void free_dlistint(stack_t *head);
 
 /**
  * struct dat_s - structure of the global variable
  * @line: line from the file
- * @toks: parsed line
- * @stack: pointer to the stack
- * @ptr: file pointer
- * @qs_flag: flag for queue or stack
+ * @arg: argument of the program
+ * @buff: buffer used in reading the curent line
+ * @head: pointer to the head of the stack
+ * @ptr: file descriptor pointer
+ * @qs_flag: flag for queue or stack(1-stack & 0-queue)
  */
 typedef struct dat_s
 {
-	char *line;
-	char **toks;
-	stack_t *stack;
+	unsigned int *line;
+	char *arg;
+	stack_t *head;
 	FILE *ptr;
+	char *buff;
 	int qs_flag;
 } dat_t;
 
 extern dat_t uvar;
 
 #define UVAR_INIT {NULL, NULL, NULL, NULL, 0}
-
 #define USAGE "USAGE: monty file\n"
 #define FILE_ERROR "Error: Can't open file %s\n"
 #define UNKNOWN "L%u: unknown instruction %s\n"
@@ -107,24 +84,34 @@ extern dat_t uvar;
 #define PCHAR_FAIL "L%u: can't pchar, stack empty\n"
 #define PCHAR_RANGE "L%u: can't pchar, value out of range\n"
 
-/******** main.c ***********/
-void monty(ags_t *args);
+/* print_error */
+void _printerror(const char *msg, unsigned int  line);
 
-/* get_func.c */
-void (*_getfunc(char **tokenised))(stack_t **, unsigned int);
+/******** op functions ********* */
+void (*_getfunc(char *op))(stack_t **stack, unsigned int line_number);
 void push(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);
-
-/* mfree.c */
-void free_all(int f_all);
-void e_free(char **args);
-
-/* strings.c */
-int _wordcount(char *s);
-char **strtow(char *s);
+void pint(stack_t **stack, unsigned int line_number);
+void pop(stack_t **stack, unsigned int line_number);
+void swap(stack_t **stack, unsigned int line_number);
+void add(stack_t **stack, unsigned int line_number);
+void nop(stack_t **stack, unsigned int line_number);
+void rotl(stack_t **stack, unsigned int line_number);
+void rotr(stack_t **stack, unsigned int line_number);
+void stack(stack_t **stack, unsigned int line_number);
+void queue(stack_t **stack, unsigned int line_number);
+void sub(stack_t **stack, unsigned int line_number);
+void div(stack_t **head, unsigned int line);
+void mul(stack_t **stack, unsigned int line_number);
+void mod(stack_t **stack, unsigned int line_number);
+void pchar(stack_t **stack, unsigned int line_number);
+void pstr(stack_t **stack, unsigned int line_number);
 
 /* _getline function */
 ssize_t _getline(char **line, size_t *n, FILE *stream);
 
+/* uvar functions */
+void _initvar(FILE *ptr);
+void _freevar(void);
 
 # endif /* MONTY_H */
