@@ -1,71 +1,54 @@
-#include "monty.h"
+#include  "monty.h"
+
+dat_t uvar = UVAR_INIT;
 
 /**
- * monty - this is the helper function for main func
- * @args: pointer to struct of arguments from main
+ * main - entry point for monty bytecode interpreter
+ * @ac: argument count
+ * @av: argument vector
  *
- * Description: opens and reads from the file
- * containing the opcodes, and calls the function
- * that will find the corresponding executing function
+ * Return: Always 0
  */
-void monty(ags_t *args)
+int main(int ac, char **av)
 {
-	size_t size = 0;
-	int get = 0;
+	FILE *ptr;
+	size_t size = 256;
+	ssize_t _numread = 0;
 	void (*f)(stack_t **stack, unsigned int line_number);
+	char *tok = NULL;
 
-	if (args->argc != 2)
+	if (ac != 2)
 	{
 		fprintf(stderr, USAGE);
 		exit(EXIT_FAILURE);
 	}
-	uvar.ptr = fopen(args->argv, "r");
-	if (!uvar.ptr)
+	ptr = fopen(av[1], "r");
+	if (!ptr)
 	{
-		fprintf(stderr, FILE_ERROR, args->argv);
+		fprintf(stderr, FILE_ERROR, av[1]);
 		exit(EXIT_FAILURE);
 	}
-	while (1)
+	_initvar(ptr);
+	_numread = _getline(&uvar.buff, &size, ptr);
+	while (_numread != -1)
 	{
-		args->line_number++;
-		get = _getline(&uvar.line, &size, uvar.ptr);
-		if (get < 0)
-			break;
-		uvar.toks = strtow(uvar.line);
-		if (uvar.toks[0] == NULL || uvar.toks[0][0] == '#')
+		tok = strtok(uvar.buff, " \t\n");
+		if (tok && tok[0] != '#')
 		{
-			free_all(0);
-			continue;
-		}
-		f = _getfunc(uvar.toks);
-		if (!f)
-		{
-			fprintf(stderr, UNKNOWN, args->line_number, uvar.toks[0]);
-			free_all(1);
+			f = _getfunc(tok);
+			if (!f)
+			{
+			fprintf(stderr, UNKNOWN, uvar.line);
+			fprintf(stderr, UNKNOWN, tok);
+			_freevar();
 			exit(EXIT_FAILURE);
+			}
+			uvar.arg = strtok(NULL, " \t\n");
+			f(&uvar.head, uvar.line);
 		}
-			f(&(uvar.stack), args->line_number);
-		free_all(0);
+		_numread = _getline(&uvar.buff, &size, ptr);
+		uvar.line++;
 	}
-	free_all(1);
-}
-
-/**
- * main - entry point for monty bytecode interpreter
- * @ac: number of arguments
- * @av: array of arguments
- *
- * Return: EXIT_SUCCESS or EXIT_FAILURE
- */
-int main(int ac, char **av)
-{
-	ags_t args;
-
-	args.argv = av[1];
-	args.argc = ac;
-	args.line_number = 0;
-
-	monty(&args);
-
-	return (EXIT_SUCCESS);
+	_freevar();
+	return (0);
 }

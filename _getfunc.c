@@ -2,27 +2,31 @@
 
 /**
  * _getfunc - this selects the right function
- * @tokenised: line from the bytecode file passed to main
+ * @op: instructions passed to the main
  *
- * Return: pointer to the selected function, or NULL on failure
+ * Return: pointer to the funciton associated or NULL if not found
  */
-void (*_getfunc(char **tokenised))(stack_t **, unsigned int)
+void (*_getfunc(char *op))(stack_t **stack, unsigned int line_number)
 {
-	instruction_t func_arr[] = {
-		{"push", push},
-		{"pall", pall},
-		/*{"pint", pint},*/
+	instruction_t func_lists[] = {
+		{"push", push}, {"swap", swap},
+		{"pall", pall}, {"nop", nop},
+		{"pint", pint}, {"div", div},
+		{"pop", pop}, {"mod", mod},
+		{"pchar", pchar}, {"rotl", rotl},
+		{"stack", stack}, {"queue", queue},
+		{"add", add}, {"sub", sub},
+		{"mul", mul}, {"pstr", pstr},
+		{"rotr", rotr},
 		{NULL, NULL}
 	};
 
-	int o_codes = 3, x;
+	int i;
 
-	for (x = 0; x < o_codes; x++)
+	for (i = 0; func_lists[i].opcode; i++)
 	{
-		if (strcmp(func_arr[x].opcode, tokenised[0]) == 0)
-		{
-			return (func_arr[x].f);
-		}
+		if (strcmp(func_lists[i].opcode, op) == 0)
+			break;
 	}
-	return (NULL);
+	return (func_lists[i].f);
 }

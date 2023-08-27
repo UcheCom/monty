@@ -42,21 +42,21 @@ void *_realloc(void *ptr, size_t size, size_t new_size)
  */
 ssize_t _getline(char **line, size_t *n, FILE *stream)
 {
-	char buf[256];
+	char buff[256];
 
 	if (line == NULL || n == NULL || stream == NULL)
 		return (-1);
 	if (*line == NULL)
 	{
-		*n = sizeof(buf);
+		*n = sizeof(buff);
 		*line = malloc(*n);
 		if (!(*line))
 			return (-1);
 	}
 	(*line)[0] = '\0';
-	while (fgets(buf, sizeof(buf), stream) != NULL)
+	while (fgets(buff, sizeof(buff), stream) != NULL)
 	{
-		if (*n - strlen(*line) < sizeof(buf))
+		if (*n - strlen(*line) < sizeof(buff))
 		{
 			*n *= 2;
 			*line = _realloc(*line, *n / 2, *n);
@@ -66,7 +66,7 @@ ssize_t _getline(char **line, size_t *n, FILE *stream)
 				return (-1);
 			}
 		}
-		strcat(*line, buf);
+		strcat(*line, buff);
 		if ((*line)[strlen(*line) - 1] == '\n')
 			return (strlen(*line));
 	}

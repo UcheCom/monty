@@ -1,41 +1,33 @@
 #include "monty.h"
 
 /**
- * push - handles the push instruction
- * @stack: double pointer to the stack
- * @line_number: number of the line in the file
+ * push - this pushes data to a stack
+ * @head: double pointer the head of the stack
+ * @line: current line number
+ *
  */
-void push(stack_t **stack, unsigned int line_number)
+void push(stack_t **head, unsigned int line)
 {
-	stack_t *nw;
-	int num = 0, x;
+	int n, i;
 
-	if (uvar.toks[1] == NULL)
+	if (!uvar.arg)
 	{
-		fprintf(stderr, PUSH_FAIL, line_number);
-		free_all(1);
+		fprintf(stderr, PUSH_FAIL, line);
+		_freevar();
 		exit(EXIT_FAILURE);
 	}
-
-	for (x = 0; uvar.toks[1][x]; x++)
+	for (i = 0; uvar.arg[i] != '\0'; i++)
 	{
-		if (isalpha(uvar.toks[1][x]) != 0)
+		if (!isdigit(uvar.arg[i]) && uvar.arg[i] != '-')
 		{
-			fprintf(stderr, PUSH_FAIL, line_number);
-			free_all(1);
+			fprintf(stderr, PUSH_FAIL, line);
+			_freevar();
 			exit(EXIT_FAILURE);
 		}
 	}
-	num = atoi(uvar.toks[1]);
-
-	if (uvar.qs_flag == 0)
-		nw = add_dnodeint(stack, num);
-	else if (uvar.qs_flag == 1)
-		nw = add_dnodeint_end(stack, num);
-	if (!nw)
-	{
-		fprintf(stderr, MALLOC_FAIL);
-		free_all(1);
-		exit(EXIT_FAILURE);
-	}
+	n = atoi(uvar.arg);
+	if (uvar.qs_flag == 1)
+		add_dnodeint(head, n);
+	else if (uvar.qs_flag == 0)
+		add_dnodeint_end(head, n);
 }
