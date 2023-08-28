@@ -1,13 +1,13 @@
 # ifndef MONTY_H
 # define MONTY_H
 
+#include <sys/types.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 #include <unistd.h>
 #include <fcntl.h>
-
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -66,7 +66,7 @@ typedef struct dat_s
 
 extern dat_t uvar;
 
-#define UVAR_INIT {NULL, NULL, NULL, NULL, 0}
+/*#define UVAR_INIT {NULL, NULL, NULL, NULL, 0}*/
 #define USAGE "USAGE: monty file\n"
 #define FILE_ERROR "Error: Can't open file %s\n"
 #define UNKNOWN "L%u: unknown instruction %s\n"
@@ -101,7 +101,7 @@ void rotr(stack_t **stack, unsigned int line_number);
 void stack(stack_t **stack, unsigned int line_number);
 void queue(stack_t **stack, unsigned int line_number);
 void sub(stack_t **stack, unsigned int line_number);
-void div(stack_t **head, unsigned int line);
+void div(stack_t **stack, unsigned int line_number);
 void mul(stack_t **stack, unsigned int line_number);
 void mod(stack_t **stack, unsigned int line_number);
 void pchar(stack_t **stack, unsigned int line_number);
@@ -114,4 +114,4 @@ ssize_t _getline(char **line, size_t *n, FILE *stream);
 void _initvar(FILE *ptr);
 void _freevar(void);
 
-# endif /* MONTY_H */
+# endif
