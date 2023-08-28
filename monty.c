@@ -1,6 +1,6 @@
 #include  "monty.h"
 
-dat_t uvar = UVAR_INIT;
+dat_t uvar;
 
 /**
  * main - entry point for monty bytecode interpreter

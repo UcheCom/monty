@@ -28,6 +28,6 @@ void swap(stack_t **head, unsigned int line)
 	*head = (*head)->next;
 	end->next = (*head)->next;
 	end->prev = (*head);
-	(*head)->next = end
+	(*head)->next = end;
 	(*head)->prev = NULL;
 }
