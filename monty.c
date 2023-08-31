@@ -28,7 +28,7 @@ int main(int ac, char **av)
 		fprintf(stderr, FILE_ERROR, av[1]);
 		exit(EXIT_FAILURE);
 	}
-	_initvar(ptr);
+	m_initvar(ptr);
 	_numread = _getline(&uvar.buff, &size, ptr);
 	while (_numread != -1)
 	{
@@ -38,13 +38,13 @@ int main(int ac, char **av)
 			f = _getfunc(tok);
 			if (!f)
 			{
-			fprintf(stderr, UNKNOWN, uvar.line);
-			fprintf(stderr, UNKNOWN, tok);
+			fprintf(stderr, "L%u ", uvar.line);
+			fprintf(stderr, "unknown instruction %s\n", tok);
 			_freevar();
 			exit(EXIT_FAILURE);
 			}
 			uvar.arg = strtok(NULL, " \t\n");
-			f(&uvar.head, uvar.line);
+			/*f(&uvar.head, uvar.line);*/
 		}
 		_numread = _getline(&uvar.buff, &size, ptr);
 		uvar.line++;

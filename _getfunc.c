@@ -11,11 +11,11 @@ void (*_getfunc(char *op))(stack_t **stack, unsigned int line_number)
 	instruction_t func_lists[] = {
 		{"push", push}, {"swap", swap},
 		{"pall", pall}, {"nop", nop},
-		{"pint", pint}, {"div", div},
+		{"pint", pint}, {"div", _div},
 		{"pop", pop}, {"mod", mod},
 		{"pchar", pchar}, {"rotl", rotl},
 		{"stack", stack}, {"queue", queue},
-		{"add", add}, {"sub", sub},
+		{"add", add}, {"sub", _sub},
 		{"mul", mul}, {"pstr", pstr},
 		{"rotr", rotr},
 		{NULL, NULL}

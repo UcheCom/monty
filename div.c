@@ -1,13 +1,13 @@
 #include "monty.h"
 
 /**
- * div - handles the div instruction
+ * _div - handles the div instruction
  * @head: double pointer to the head of the stack
  * @line: current line number
  *
  * Return: void
  */
-void div(stack_t **head, unsigned int line)
+void _div(stack_t **head, unsigned int line)
 {
 	stack_t *temp;
 	unsigned int counter = 0;
