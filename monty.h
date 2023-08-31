@@ -56,7 +56,7 @@ void free_dlistint(stack_t *head);
  */
 typedef struct dat_s
 {
-	unsigned int *line;
+	unsigned int line;
 	char *arg;
 	stack_t *head;
 	FILE *ptr;
@@ -66,10 +66,10 @@ typedef struct dat_s
 
 extern dat_t uvar;
 
-/*#define UVAR_INIT {NULL, NULL, NULL, NULL, 0}*/
+#define MVAR_INIT {NULL, NULL, NULL, NULL, 0}
 #define USAGE "USAGE: monty file\n"
 #define FILE_ERROR "Error: Can't open file %s\n"
-#define UNKNOWN "L%u: unknown instruction %s\n"
+/*#define UNKNOWN "L%u: unknown instruction %s\n"*/
 #define MALLOC_FAIL "Error: malloc failed\n"
 #define PUSH_FAIL "L%u: usage: push integer\n"
 #define PINT_FAIL "L%u: can't pint, stack empty\n"
@@ -85,7 +85,7 @@ extern dat_t uvar;
 #define PCHAR_RANGE "L%u: can't pchar, value out of range\n"
 
 /* print_error */
-void _printerror(const char *msg, unsigned int  line);
+/*void _printerror(const char *msg, unsigned int  line);*/
 
 /******** op functions ********* */
 void (*_getfunc(char *op))(stack_t **stack, unsigned int line_number);
@@ -100,8 +100,8 @@ void rotl(stack_t **stack, unsigned int line_number);
 void rotr(stack_t **stack, unsigned int line_number);
 void stack(stack_t **stack, unsigned int line_number);
 void queue(stack_t **stack, unsigned int line_number);
-void sub(stack_t **stack, unsigned int line_number);
-void div(stack_t **stack, unsigned int line_number);
+void _sub(stack_t **stack, unsigned int line_number);
+void _div(stack_t **stack, unsigned int line_number);
 void mul(stack_t **stack, unsigned int line_number);
 void mod(stack_t **stack, unsigned int line_number);
 void pchar(stack_t **stack, unsigned int line_number);
@@ -111,7 +111,7 @@ void pstr(stack_t **stack, unsigned int line_number);
 ssize_t _getline(char **line, size_t *n, FILE *stream);
 
 /* uvar functions */
-void _initvar(FILE *ptr);
+void m_initvar(FILE *ptr);
 void _freevar(void);
 
 # endif
